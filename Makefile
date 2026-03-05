@@ -449,8 +449,8 @@ stop: ## Stop and remove all OpenRAG containers
 
 restart: stop dev ## Restart all containers
 
-remove-openrag-images: ## Remove OpenRAG images only (safe for other projects)
-	@echo "$(YELLOW)Removing OpenRAG images only...$(NC)"
+remove-openrag-images: ## Remove OpenRAG-related images and dependencies (may affect other projects using shared images)
+	@echo "$(YELLOW)Removing OpenRAG-related images and dependencies...$(NC)"
 	@removed=0; total=0; \
 	for repo in $(OPENRAG_IMAGE_REPOS); do \
 		ids=$$($(CONTAINER_RUNTIME) images "$$repo" -q 2>/dev/null | sort -u); \
