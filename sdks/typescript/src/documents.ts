@@ -159,6 +159,9 @@ export class DocumentsClient {
       return {
         success: data.success ?? false,
         deleted_chunks: data.deleted_chunks ?? 0,
+        filename: data.filename ?? filename,
+        message: data.message ?? null,
+        error: data.error ?? null,
       };
     } catch (error) {
       // Delete is idempotent: if no chunks match, backend may return 404.
@@ -167,6 +170,9 @@ export class DocumentsClient {
         return {
           success: false,
           deleted_chunks: 0,
+          filename,
+          message: null,
+          error: (error as Error)?.message ?? "Resource not found",
         };
       }
       throw error;

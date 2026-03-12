@@ -146,7 +146,13 @@ class DocumentsClient:
         except NotFoundError as e:
             # Keep delete idempotent for SDK callers: a missing document is not an exception.
             if getattr(e, "status_code", None) == 404:
-                return DeleteDocumentResponse(success=False, deleted_chunks=0)
+                return DeleteDocumentResponse(
+                    success=False,
+                    deleted_chunks=0,
+                    filename=filename,
+                    message=None,
+                    error=getattr(e, "message", "Resource not found"),
+                )
             raise
 
         data = response.json()
